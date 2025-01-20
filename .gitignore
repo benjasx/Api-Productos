@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorios de salida de TypeScript
+dist/
+build/
+
+# Archivos temporales del editor
+.vscode/
+.idea/
+*.swp
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+logs/*.log
+
+# Entorno local
+.env
+.env.local
+.env.*.local
+
+# Otros
+coverage/
