@@ -64,7 +64,22 @@ export const updateAvailability = async (req: Request, res: Response) => {
   }
 
   //ACTUALIZAR PRODUCTO
-  await product.update(req.body)
+  product.availability = !product.dataValues.availability
   await product.save()
   res.json({data:product})
+};
+
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const product = await Products.findByPk(id);
+  if (!product) {
+    return res.status(404).json({
+      error: "producto no encontrado",
+    });
+  }
+
+  //ELIMINAR PRODUCTO
+  await product.destroy()
+  res.json({data: 'Producto Eliminado'})
 };
