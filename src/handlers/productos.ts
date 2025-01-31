@@ -32,9 +32,10 @@ export const getProductByID = async (req: Request, res: Response) => {
 export const createProducts = async (req: Request, res: Response) => {
   try {
     const product = await Products.create(req.body);
-    res.json({ data: product });
+    res.status(201).json({ data: product }); // <-- Agrega el status 201 aquí
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Error al crear el producto" }); // <-- Manejo de errores
   }
 };
 
