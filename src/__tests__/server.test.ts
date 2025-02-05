@@ -15,8 +15,19 @@ describe('GET /api', () => {
     })
 })
 
+jest.mock('../config/db')
 
 describe('conectDb', () => {
-    
+    it('should handle database connection error', async () => {
+        jest.spyOn(db, 'authenticate').mockRejectedValueOnce(new Error('Hubo un error al conectar a BD'))
+
+        const consoleSpy = jest.spyOn(console, 'log')
+
+        await connectDB()
+
+        expect(consoleSpy).toHaveBeenCalledWith(
+            expect.stringContaining('Hubo un error al conectar a BD')
+        )
+    })
 })
 
