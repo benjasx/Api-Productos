@@ -1,5 +1,6 @@
 import request from 'supertest'
-import server from '../server'
+import server, {connectDB} from '../server'
+import  db from '../config/db'
 
 describe('GET /api', () => {
     it('should send back a json response', async () => {
@@ -13,3 +14,9 @@ describe('GET /api', () => {
         expect(res.body.msg).not.toBe('desde api')
     })
 })
+
+
+describe('conectDb', () => {
+    
+})
+

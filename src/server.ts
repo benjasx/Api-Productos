@@ -6,7 +6,7 @@ import colors from 'colors'
 
 //CONECTAR A LA BBDD
 
-async function connectDB() {
+export async function connectDB() {
   try {
     await db.authenticate()
     db.sync()
