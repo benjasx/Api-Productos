@@ -82,7 +82,7 @@ router.get("/", getProducts);
  *                      schema:
  *                           $ref: '#/components/schemas/Product'
  *          404:
- *              description: Not found
+ *              description: Product Not found
  *          400:
  *              description: Bad request - Id invalid
  */
@@ -118,7 +118,11 @@ router.get(
  * 
  *      responses:
  *          201:
- *              description: Prodruct created successfully
+ *              description: product created successfulluy
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Product'
  *          400:
  *              description: Bad Request - Invalid input data
  * 
@@ -144,12 +148,83 @@ router.post(
   createProducts
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  patch:
+ *      summary: Update Product availability
+ *      tags:
+ *          - Products
+ *      description: returns the updated avalability
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          description: The ID of the product to retrieve
+ *          required: true
+ *          schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: Successful Response
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                           $ref: '#/components/schemas/Product'
+ *          404:
+ *              description: Product Not found
+ *          400:
+ *              description: Bad request - Id invalid
+ */
 router.patch(
   "/:id",
   param("id").isInt().withMessage("ID no válido"),
   handleInputErrors,
   updateAvailability
 );
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  put:
+ *      summary: Updates a products with user input
+ *      tags:
+ *          - Products
+ *      description: Return the updated product
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         description: The ID of the product to retrieve
+ *         required: true
+ *         schema:
+ *             type: integer
+ *      requestBody:
+ *           required: true
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                        type: object
+ *                        properties:
+ *                            name:
+ *                                type: string
+ *                                example: "Monitor Curvo 49 pulgadas"
+ *                            price:
+ *                                type: number
+ *                                example: 399
+ *                            availability: 
+ *                                type: boolean
+ *                                example: true
+ *      responses:
+ *          200:
+ *              description: product created successfulluy
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Product'
+ *          400:
+ *              description: Bad Request - Invalid Id or invalid inpud data
+ *          404:
+ *              description: product not found
+ */
 
 router.put(
   "/:id",
@@ -171,6 +246,37 @@ router.put(
   handleInputErrors,
   updateProduct
 );
+
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  delete:
+ *      summary: Deletes product by Id a given ID
+ *      tags:
+ *          - Products
+ *      description: return a confirmation message
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          description: The ID of the product to delete
+ *          required: true
+ *          schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: Successful response
+ *              content:
+ *                  aplication/json:
+ *                      schema: 
+ *                          type: string
+ *                          value: 'Product deleted'
+ *          400:
+ *              description: Bad Request
+ * 
+ *          404:
+ *              description: Product not found
+ */
 
 router.delete(
   "/:id",
