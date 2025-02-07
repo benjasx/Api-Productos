@@ -12,7 +12,6 @@ import { handleInputErrors } from "./middleware";
 
 const router = Router();
 
-
 /**
  * @swagger
  * components:
@@ -26,15 +25,15 @@ const router = Router();
  *                      example: 1
  *                  name:
  *                      type: string
- *                      description: The product name 
+ *                      description: The product name
  *                      example: Monitor Curvo 49"
  *                  price:
  *                      type: number
- *                      description: The product price 
+ *                      description: The product price
  *                      example: 300
  *                  availability:
  *                      type: boolean
- *                      description: The product availability 
+ *                      description: The product availability
  *                      example: true
  */
 
@@ -47,7 +46,7 @@ const router = Router();
  *              - Products
  *          description: Return a list of products
  *          responses:
- *              200: 
+ *              200:
  *                  description: Successful response
  *                  content:
  *                       application/json:
@@ -55,15 +54,78 @@ const router = Router();
  *                                type: array
  *                                items:
  *                                  $ref: '#/components/schemas/Product'
- * 
+ *
  */
+
 router.get("/", getProducts);
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  get:
+ *      summary: Get a product by ID
+ *      tags:
+ *          - Products
+ *      description: return a product based on its unique ID
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          description: The ID of the product to retrieve
+ *          required: true
+ *          schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: Successful Response
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                           $ref: '#/components/schemas/Product'
+ *          404:
+ *              description: Not found
+ *          400:
+ *              description: Bad request - Id invalid
+ */
 router.get(
   "/:id",
   param("id").isInt().withMessage("ID no válido"),
   handleInputErrors,
   getProductByID
 );
+
+
+/**
+ * @swagger
+ * /api/products:
+ *  post:
+ *      summary: Creates a new product
+ *      tags:
+ *          - Products
+ *      description: Return a new record in the database
+ *      requestBody:
+ *           required: true
+ *           content:
+ *               application/json:
+ *                   schema:
+ *                        type: object
+ *                        properties:
+ *                            name:
+ *                                type: string
+ *                                example: "Monitor Curvo 49 pulgadas"
+ *                            price:
+ *                                type: number
+ *                                example: 399
+ * 
+ *      responses:
+ *          201:
+ *              description: Prodruct created successfully
+ *          400:
+ *              description: Bad Request - Invalid input data
+ * 
+ * 
+ * 
+ * 
+ */
 
 router.post(
   "/",
@@ -82,7 +144,8 @@ router.post(
   createProducts
 );
 
-router.patch("/:id", 
+router.patch(
+  "/:id",
   param("id").isInt().withMessage("ID no válido"),
   handleInputErrors,
   updateAvailability
@@ -103,12 +166,14 @@ router.put(
     .custom((value) => value > 0)
     .withMessage("El precio debe ser mayor a 0"),
   body("availability")
-  .isBoolean().withMessage('Valor para dispinibilidad no valido'),
+    .isBoolean()
+    .withMessage("Valor para dispinibilidad no valido"),
   handleInputErrors,
   updateProduct
 );
 
-router.delete("/:id", 
+router.delete(
+  "/:id",
 
   param("id").isInt().withMessage("ID no válido"),
   handleInputErrors,
